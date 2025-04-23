@@ -1,61 +1,251 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Player</title>
   <style>
+    :root {
+      --primary-color: #4285F4;
+      --hover-color: #3367D6;
+      --text-color: #333;
+      --bg-color: #f5f5f5;
+      --card-bg: white;
+      --shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    
+    .player-container {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 25px;
+      width: 90%;
+      max-width: 800px;
+      text-align: center;
+    }
+    
+    .title {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+    
+    #video-player {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .progress-container {
+      background-color: #e0e0e0;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+    
+    .progress-bar {
+      background-color: var(--primary-color);
+      height: 100%;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+    
+    .button-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    
     .play-button {
-      padding: 20px 40px;
-      font-size: 18px;
-      background: #4CAF50;
+      padding: 12px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      background: var(--primary-color);
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 50px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s;
+      min-width: 140px;
     }
     
     .play-button:hover {
-      background: #45a049;
+      background: var(--hover-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
-
-    #video-player {
-      max-width: 100%;
-      margin: 20px 0;
+    
+    .play-button:disabled {
+      background: #a0a0a0;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 auto;
+      max-width: 200px;
+    }
+    
+    .volume-control input {
+      width: 100%;
+      cursor: pointer;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .status-indicator {
+      display: inline-block;
+      color: #666;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    
+    @media (max-width: 600px) {
+      .player-container {
+        padding: 15px;
+        width: 95%;
+      }
+      
+      .play-button {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
     }
   </style>
 </head>
 <body>
-  <button class="play-button" id="playBtn">Play Video & Audio</button>
-  <video id="video-player" src="/6fa618e7-14b6-4490-901f-7ad9f83194fe_w (1).mp4"></video>
-  <audio id="audio-player" src="/you-have-to-check-this-out-ma-rob-2025-04-23.wav"></audio>
+  <div class="player-container">
+    <h2 class="title">Media Player</h2>
+    
+    <video id="video-player" src="/6fa618e7-14b6-4490-901f-7ad9f83194fe_w (1).mp4"></video>
+    <audio id="audio-player" src="/you-have-to-check-this-out-ma-rob-2025-04-23.wav"></audio>
+    
+    <div class="controls">
+      <div class="progress-container">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+      
+      <div class="button-row">
+        <button class="play-button" id="playBtn">Play Media</button>
+      </div>
+      
+      <div class="volume-control">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 10v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71V6.41c0-.89-1.08-1.34-1.71-.71L7 9H4c-.55 0-1 .45-1 1zm13.5 2A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 4.45v.2c0 .38.25.71.6.85C17.18 6.53 19 9.06 19 12s-1.82 5.47-4.4 6.5c-.36.14-.6.47-.6.85v.2c0 .63.63 1.07 1.21.85C18.6 19.11 21 15.84 21 12s-2.4-7.11-5.79-8.4c-.58-.23-1.21.22-1.21.85z"/>
+        </svg>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
+      </div>
+      
+      <span id="status" class="status-indicator"></span>
+    </div>
+  </div>
 
   <script>
     const videoPlayer = document.getElementById('video-player');
     const audioPlayer = document.getElementById('audio-player');
     const playButton = document.getElementById('playBtn');
-    let hasPlayed = false;
-
+    const progressBar = document.getElementById('progress-bar');
+    const volumeSlider = document.getElementById('volume-slider');
+    const statusIndicator = document.getElementById('status');
+    
+    let isPlaying = false;
+    
+    // Play/pause functionality
     playButton.addEventListener('click', () => {
-      if (!hasPlayed) {
-        videoPlayer.play();
-        audioPlayer.play();
-        hasPlayed = true;
-        playButton.disabled = true;
-        playButton.textContent = 'Playing...';
+      if (!isPlaying) {
+        // Start playback
+        videoPlayer.currentTime = 0;
+        audioPlayer.currentTime = 0;
+        
+        Promise.all([
+          videoPlayer.play(),
+          audioPlayer.play()
+        ]).then(() => {
+          isPlaying = true;
+          playButton.textContent = 'Playing...';
+          playButton.disabled = true;
+          statusIndicator.textContent = 'Playing video and audio';
+        }).catch(error => {
+          console.error('Playback failed:', error);
+          statusIndicator.textContent = 'Playback failed. Please try again.';
+        });
+      } else {
+        // Reset for replay
+        videoPlayer.pause();
+        audioPlayer.pause();
+        videoPlayer.currentTime = 0;
+        audioPlayer.currentTime = 0;
+        isPlaying = false;
+        playButton.textContent = 'Play Media';
+        progressBar.style.width = '0%';
+        statusIndicator.textContent = '';
       }
     });
-
-    // Reset button when either media ends
-    videoPlayer.addEventListener('ended', () => {
-      playButton.disabled = false;
-      playButton.textContent = 'Play Again';
+    
+    // Handle media ending
+    function handleMediaEnd() {
+      if (videoPlayer.ended && audioPlayer.ended) {
+        isPlaying = false;
+        playButton.disabled = false;
+        playButton.textContent = 'Play Again';
+        statusIndicator.textContent = 'Playback complete';
+      }
+    }
+    
+    videoPlayer.addEventListener('ended', handleMediaEnd);
+    audioPlayer.addEventListener('ended', handleMediaEnd);
+    
+    // Update progress bar based on video progress
+    videoPlayer.addEventListener('timeupdate', () => {
+      const percent = (videoPlayer.currentTime / videoPlayer.duration) * 100;
+      progressBar.style.width = `${percent}%`;
     });
-
-    audioPlayer.addEventListener('ended', () => {
-      playButton.disabled = false;
-      playButton.textContent = 'Play Again';
+    
+    // Volume control
+    volumeSlider.addEventListener('input', () => {
+      const volume = volumeSlider.value;
+      videoPlayer.volume = volume;
+      audioPlayer.volume = volume;
+    });
+    
+    // Reset both media and controls when "Play Again" is clicked
+    playButton.addEventListener('click', () => {
+      if (playButton.textContent === 'Play Again') {
+        videoPlayer.currentTime = 0;
+        audioPlayer.currentTime = 0;
+        progressBar.style.width = '0%';
+        playButton.textContent = 'Play Media';
+        statusIndicator.textContent = '';
+        isPlaying = false;
+      }
     });
   </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
-
