@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .play-button {
+      padding: 20px 40px;
+      font-size: 18px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .play-button:hover {
+      background: #45a049;
+    }
+
+    #video-player {
+      max-width: 100%;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <button class="play-button" id="playBtn">Play Video & Audio</button>
+  <video id="video-player" src="/6fa618e7-14b6-4490-901f-7ad9f83194fe_w (1).mp4"></video>
+  <audio id="audio-player" src="/you-have-to-check-this-out-ma-rob-2025-04-23.wav"></audio>
+
+  <script>
+    const videoPlayer = document.getElementById('video-player');
+    const audioPlayer = document.getElementById('audio-player');
+    const playButton = document.getElementById('playBtn');
+    let hasPlayed = false;
+
+    playButton.addEventListener('click', () => {
+      if (!hasPlayed) {
+        videoPlayer.play();
+        audioPlayer.play();
+        hasPlayed = true;
+        playButton.disabled = true;
+        playButton.textContent = 'Playing...';
+      }
+    });
+
+    // Reset button when either media ends
+    videoPlayer.addEventListener('ended', () => {
+      playButton.disabled = false;
+      playButton.textContent = 'Play Again';
+    });
+
+    audioPlayer.addEventListener('ended', () => {
+      playButton.disabled = false;
+      playButton.textContent = 'Play Again';
+    });
+  </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+
